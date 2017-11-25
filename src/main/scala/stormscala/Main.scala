@@ -14,6 +14,7 @@ object Main {
   def main(args: Array[String]): Unit = {
     // SkewedRollingTopWordsTopology.main(args)
     CS6JoinTopology.main(args)
+    CS6SkewedRollingTopWordsTopology.main(args)
   }
 }
 
