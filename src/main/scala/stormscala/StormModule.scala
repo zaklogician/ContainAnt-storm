@@ -1,0 +1,118 @@
+package stormscala
+
+import com.containant._
+import com.containant.heuristics._
+
+// Generic module for configuring Apache Storm applications
+
+case class FCPULoad(toInt: Int)
+case class FMemoryLoad(toInt: Int)
+case class FParallelism(toInt: Int)
+
+/*trait StormModule extends IntModule {
+  import com.containant.IntModuleDefs._
+  def fCPULoad(int8: Int8): FCPULoad = FCPULoad(int8.asInt % 90 + 10)
+  def fMemoryLoad(int8: Int8): FMemoryLoad = FMemoryLoad(int8.asInt % 90 + 10)
+  def fParallelism(int8: Int8): FParallelism = FParallelism(int8.asInt % 12 + 1)
+}*/
+
+trait StormModule extends Module {
+  val cpu10: FCPULoad = FCPULoad(10)
+  val cpu20: FCPULoad = FCPULoad(20)
+  val cpu30: FCPULoad = FCPULoad(30)
+  val cpu40: FCPULoad = FCPULoad(40)
+  val cpu50: FCPULoad = FCPULoad(50)
+  val cpu60: FCPULoad = FCPULoad(60)
+  val cpu70: FCPULoad = FCPULoad(70)
+  val cpu80: FCPULoad = FCPULoad(80)
+  val cpu90: FCPULoad = FCPULoad(90)
+  val cpu100: FCPULoad = FCPULoad(100)
+
+  val mem10: FMemoryLoad = FMemoryLoad(10)
+  val mem20: FMemoryLoad = FMemoryLoad(20)
+  val mem30: FMemoryLoad = FMemoryLoad(30)
+  val mem40: FMemoryLoad = FMemoryLoad(40)
+  val mem50: FMemoryLoad = FMemoryLoad(50)
+  val mem60: FMemoryLoad = FMemoryLoad(60)
+  val mem70: FMemoryLoad = FMemoryLoad(70)
+  val mem80: FMemoryLoad = FMemoryLoad(80)
+  val mem90: FMemoryLoad = FMemoryLoad(90)
+  val mem100: FMemoryLoad = FMemoryLoad(100)
+
+  val par1: FParallelism = FParallelism(1)
+  val par2: FParallelism = FParallelism(2)
+  val par3: FParallelism = FParallelism(3)
+  val par4: FParallelism = FParallelism(4)
+  val par5: FParallelism = FParallelism(5)
+  val par6: FParallelism = FParallelism(6)
+  val par7: FParallelism = FParallelism(7)
+  val par8: FParallelism = FParallelism(8)
+  val par9: FParallelism = FParallelism(9)
+  val par10: FParallelism = FParallelism(10)
+  val par11: FParallelism = FParallelism(11)
+  val par12: FParallelism = FParallelism(12)
+}
+
+
+// Specific code for configuring the topology
+
+case class TopConfig(
+  spoutCPULoad: Int,
+  spoutMemoryLoadOnHeap: Int,
+  spoutMemoryLoadOffHeap: Int,
+  spoutParallelismHint: Int,
+  genderBoltCPULoad: Int,
+  genderBoltMemoryLoadOnHeap: Int,
+  genderBoltMemoryLoadOffHeap: Int,
+  genderBoltParallelismHint: Int,
+  ageBoltCPULoad: Int,
+  ageBoltMemoryLoadOnHeap: Int,
+  ageBoltMemoryLoadOffHeap: Int,
+  ageBoltParallelismHint: Int,
+  maxTaskParallelism: Int
+)
+
+object JoinModule extends StormModule {
+  def topConfig(
+    spoutCPULoad: FCPULoad,
+    spoutMemoryLoadOnHeap: FMemoryLoad,
+    spoutMemoryLoadOffHeap: FMemoryLoad,
+    spoutParallelismHint: FParallelism,
+    genderBoltCPULoad: FCPULoad,
+    genderBoltMemoryLoadOnHeap: FMemoryLoad,
+    genderBoltMemoryLoadOffHeap: FMemoryLoad,
+    genderBoltParallelismHint: FParallelism,
+    ageBoltCPULoad: FCPULoad,
+    ageBoltMemoryLoadOnHeap: FMemoryLoad,
+    ageBoltMemoryLoadOffHeap: FMemoryLoad,
+    ageBoltParallelismHint: FParallelism,
+    maxTaskParallelism: FParallelism
+  ): TopConfig =
+    TopConfig(
+      spoutCPULoad.toInt,
+      spoutMemoryLoadOnHeap.toInt,
+      spoutMemoryLoadOffHeap.toInt,
+      spoutParallelismHint.toInt,
+      genderBoltCPULoad.toInt,
+      genderBoltMemoryLoadOnHeap.toInt,
+      genderBoltMemoryLoadOffHeap.toInt,
+      genderBoltParallelismHint.toInt,
+      ageBoltCPULoad.toInt,
+      ageBoltMemoryLoadOnHeap.toInt,
+      ageBoltMemoryLoadOffHeap.toInt,
+      ageBoltParallelismHint.toInt,
+      maxTaskParallelism.toInt
+    ) 
+}
+
+case class WithSeed(seed: Int) extends GrEvoHeuristic {
+  override val _population: Int = 10
+  override val _length: Int = 16
+  override val _maxChoice: Int = 6
+  override val _tournamentSize = 4
+  override val _generations = 2
+  override val _recursionDepth = 6
+  override val RNG: java.util.Random = new java.util.Random(seed)
+  override def toString: String = "gre"
+}
+
