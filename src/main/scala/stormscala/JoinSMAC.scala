@@ -2,7 +2,7 @@ package stormscala
 
 // boilerplate for SMAC verification
 
-object SMAC {
+object JoinSMAC {
   
   var spoutCPULoad: Int = 0
   var spoutMemoryLoadOnHeap: Int = 0
@@ -47,22 +47,16 @@ object SMAC {
   
   def main(args: Array[String]): Unit = {
     parseArgs(args(0).split(" ").toList)
-    val config = TopConfig(
-      spoutCPULoad,
-      spoutMemoryLoadOnHeap,
-      spoutMemoryLoadOffHeap,
-      spoutParallelismHint,
-      genderBoltCPULoad,
-      genderBoltMemoryLoadOnHeap,
-      genderBoltMemoryLoadOffHeap,
-      genderBoltParallelismHint,
-      ageBoltCPULoad,
-      ageBoltMemoryLoadOnHeap,
-      ageBoltMemoryLoadOffHeap,
-      ageBoltParallelismHint,
+    val config = JoinConfig(
+      FBolt( spoutCPULoad,spoutMemoryLoadOnHeap,
+             spoutMemoryLoadOffHeap,spoutParallelismHint),
+      FBolt( genderBoltCPULoad, genderBoltMemoryLoadOnHeap,
+             genderBoltMemoryLoadOffHeap, genderBoltParallelismHint),
+      FBolt( ageBoltCPULoad, ageBoltMemoryLoadOnHeap,
+             ageBoltMemoryLoadOffHeap, ageBoltParallelismHint),
       maxTaskParallelism
     )
-    val quality: Double = Main.runConfig(config)
+    val quality: Double = JoinTopology.runConfig(config)
     System.err.println("Fitness: " + quality)
     println("Result of algorithm run: SUCCESS, 0, 0, " + (1/quality) + ", 0")
   }

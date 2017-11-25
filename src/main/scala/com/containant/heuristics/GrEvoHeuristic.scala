@@ -137,7 +137,7 @@ trait GrEvoHeuristic extends Heuristic {
       var population = newPopulation
       var best = population.sortBy(fitnessOf).last
       for (g <- 1 to _generations) {
-        // cache = mutable.Map() // clear fitness cache
+        cache = mutable.Map() // clear fitness cache
         val nextPopulation = performIteration(population)
         population = (population ++ nextPopulation).sortBy(fitnessOf).reverse.take(population.size)
         best = population.sortBy(fitnessOf).head
