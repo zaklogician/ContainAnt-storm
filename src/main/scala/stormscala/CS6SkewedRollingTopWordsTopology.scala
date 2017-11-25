@@ -58,10 +58,10 @@ object CS6SkewedRollingTopWordsTopology {
     println("Runs: " + _runs)
     
     val comparison =
-      Framework.experimentN[SkewedRollingTopWordConfig](Seq(Hmct, Hgre, Hmma),_runs, SkewedRollingTopWordModule, SkewedRollingTopWordTopology.runConfig)
+      Framework.experimentN[SkewedRollingTopWordsConfig](Seq(Hmct, Hgre, Hmma),_runs, SkewedRollingTopWordsModule, SkewedRollingTopWordsTopology.runConfig)
     
     val reference =
-      Framework.experiment[SkewedRollingTopWordConfig](Hran, Hran, _runs, SkewedRollingTopWordModule, SkewedRollingTopWordTopology.runConfig)
+      Framework.experiment[SkewedRollingTopWordsConfig](Hran, Hran, _runs, SkewedRollingTopWordsModule, SkewedRollingTopWordTsopology.runConfig)
     
     println("heuristic,min,mean,max,var")
     for(i <- 0 until comparison.heuristics.size) {
